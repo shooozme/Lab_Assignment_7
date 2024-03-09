@@ -31,14 +31,7 @@ element *swapBubbleSort( int *array, int size) {
     return swaps;
 }
 
-int swap (int *a, int *b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-    return 1;
-}
-
-element *selectionSort( int *array, int size) {
+element *selectionSort(int *array, int size) {
     element *swaps = (element*)malloc(sizeof(element) * size);
     
     for(int i = 0; i < size; i++){
@@ -46,15 +39,22 @@ element *selectionSort( int *array, int size) {
         swaps[i].numSwaps = 0;
     }
     int i = 0;
-    for (int step = 0; step < size - 1; step++) {
-        int min_index = step;
+    int min_index = 0;
+    int step = 0;
+    for (step = 0; step < size - 1; step++) {
+        min_index = step;
         for (int i = step +1; i < size; i++) {
-            if (array[i] < array[min_index]){
+            if (swaps[i].data < swaps[min_index].data){
                 min_index = i;
             }
         }
-        if (swap(&array[min_index], &array[step])) {
-            swaps[i].numSwaps++;
+        if (min_index != step) {
+            element temp = swaps[min_index];
+            swaps[min_index].data = swaps[step].data;
+            swaps[step].data = temp.data;
+
+            swaps[min_index].numSwaps++;
+            swaps[step].numSwaps++;
         }
     }
     return swaps;
