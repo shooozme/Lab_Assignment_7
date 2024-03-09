@@ -3,25 +3,52 @@
 #include <stdlib.h>
 #include <math.h>
 
-void bubblesort( int *array, int size) {
-    for ( int step = 0; step < size -1; step++) {
-        for (int i = 0; i < size - step - 1; i++) {
-            if (array[i] > array[i + 1]) {
+typedef struct element {
+    int data;
+    int numSwaps;
+} element;
+
+element *swapBubbleSort( int *array, int size) {
+    element *swaps = (element*)malloc(sizeof(element) * size);
+    
+    for(int i = 0; i < size; i++){
+        swaps[i].data = array[i];
+        swaps[i].numSwaps = 0;
+    }
+
+    for ( int step = 0; step < size -1; step++) { 
+        int i = 0;
+        for (i = 0; i < size - step - 1; i++) {
+            swaps[i].data = array[i];
+              if (array[i] > array[i + 1]) {
                 int temp = array[i];
                 array[i] = array[i + 1];
                 array[i + 1] = temp;
+                //maybe some kind of check for which one iterates?
+                //if(temp == swaps[i].data) {
+                    swaps[i].numSwaps++;
+                //}
             }            
         }
     }
+    return swaps;
 }
 
-void swap (int *a, int *b) {
+int swap (int *a, int *b) {
     int temp = *a;
     *a = *b;
     *b = temp;
+    return 1;
 }
 
-void selectionSort(int *array, int size) {
+element *selectionSort( int *array, int size) {
+    element *swaps = (element*)malloc(sizeof(element) * size);
+    
+    for(int i = 0; i < size; i++){
+        swaps[i].data = array[i];
+        swaps[i].numSwaps = 0;
+    }
+    int i = 0;
     for (int step = 0; step < size - 1; step++) {
         int min_index = step;
         for (int i = step +1; i < size; i++) {
@@ -29,16 +56,18 @@ void selectionSort(int *array, int size) {
                 min_index = i;
             }
         }
-        swap(&array[min_index], &array[step]);
+        if (swap(&array[min_index], &array[step])) {
+            swaps[i].numSwaps++;
+        }
     }
 }
 
-
-void printArray(int array[], int size) {
-  for (int i = 0; i < size; ++i) {
-    printf("%d  ", array[i]);
-  }
-  printf("\n");
+void printFreqArray(element *swaps, int array[], int size) {
+     for(int i = 0; i < size; i++){
+        swaps[i].data = array[i];
+        printf("Number: %d", swaps[i].data);
+        printf(" SwapCount: %d\n", swaps[i].numSwaps);
+    }
 }
 
 int main() {
@@ -47,23 +76,24 @@ int main() {
     // find the array's length
     int size = sizeof(data1) / sizeof(data1[0]);
     
-    bubblesort(data1, size);
-
-    printf("Sorted array using bubbleSort in Ascending Order:\n");
-    printArray(data1, size);
-
-    bubblesort(data2, size);
-
-    printf("Sorted array using bubbleSory in Ascending Order:\n");
-    printArray(data2, size);
-
+    element* temp;
+    temp = swapBubbleSort(data1, size);
+    printf("Next array BS:\n");
+    printFreqArray(temp, data1, size);
+    
+    temp = swapBubbleSort(data2, size);
+    swapBubbleSort(data2, size);
+    printf("Next array BS:\n");
+    printFreqArray(temp, data2, size);
+    
+    temp = selectionSort(data1, size);
     selectionSort(data2, size);
-
-    printf("Sorted array using Selection Sort in Ascending Order:\n");
-    printArray(data2, size);
-
+    printf("Next array SS:\n");
+    printFreqArray(temp, data1, size);
+    
+    temp = selectionSort(data2, size);
     selectionSort(data2, size);
-
-    printf("Sorted array using Selection Sort in Ascending Order:\n");
-    printArray(data2, size);
+    printf("Next array SS:\n");
+    printFreqArray(temp, data2, size);
+    
 }
