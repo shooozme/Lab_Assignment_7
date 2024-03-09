@@ -10,12 +10,10 @@ typedef struct element {
 
 element *swapBubbleSort( int *array, int size) {
     element *swaps = (element*)malloc(sizeof(element) * size);
-    
     for(int i = 0; i < size; i++){
         swaps[i].data = array[i];
         swaps[i].numSwaps = 0;
     }
-
     for (int i = 0; i < size - 1; i++) {
         for (int j = 0; j < size - i - 1; j++) {
             if (swaps[j].data > swaps[j+1].data) {
@@ -50,8 +48,8 @@ element *selectionSort(int *array, int size) {
         }
         if (min_index != step) {
             element temp = swaps[min_index];
-            swaps[min_index].data = swaps[step].data;
-            swaps[step].data = temp.data;
+            swaps[min_index] = swaps[step];
+            swaps[step] = temp;
 
             swaps[min_index].numSwaps++;
             swaps[step].numSwaps++;
@@ -74,7 +72,7 @@ void printFreqArray(element *swaps, int array[], int size) {
 int main() {
     int data1[] = {97, 16, 45, 63 , 13, 22, 7, 58, 72};
     int data2[] = {90, 80, 70, 60, 50, 40, 30, 20, 10};
-    // find the array's length
+    
     int size = sizeof(data1) / sizeof(data1[0]);
     
     element* temp;
