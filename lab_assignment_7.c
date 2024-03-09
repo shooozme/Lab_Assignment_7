@@ -10,6 +10,7 @@ typedef struct element {
 
 element *swapBubbleSort( int *array, int size) {
     element *swaps = (element*)malloc(sizeof(element) * size);
+    //making an array of structs to keep track of the 
     for(int i = 0; i < size; i++){
         swaps[i].data = array[i];
         swaps[i].numSwaps = 0;
@@ -95,4 +96,5 @@ int main() {
     printf("Next array SS:\n");
     printFreqArray(temp, data2, size);
    
+   free(temp);
 }
