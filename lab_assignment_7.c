@@ -10,20 +10,21 @@ typedef struct element {
 
 element *swapBubbleSort( int *array, int size) {
     element *swaps = (element*)malloc(sizeof(element) * size);
-    //making an array of structs to keep track of the 
+    //making an array of structs to keep track of the swaps, and initializing to zero 
     for(int i = 0; i < size; i++){
         swaps[i].data = array[i];
         swaps[i].numSwaps = 0;
     }
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
-            if (swaps[j].data > swaps[j+1].data) {
-                element temp = swaps[j];
-                swaps[j] = swaps[j+1];
-                swaps[j+1] = temp;
+    //bubblesoprt algorithm that swaps struct
+    for (int step = 0; step < size - 1; step++) {
+        for (int i = 0; i < size - step - 1; i++) {
+            if (swaps[i].data > swaps[i+1].data) {
+                element temp = swaps[i];
+                swaps[i] = swaps[i+1];
+                swaps[i+1] = temp;
 
-                swaps[j].numSwaps++;
-                swaps[j + 1].numSwaps++;
+                swaps[i].numSwaps++;
+                swaps[i + 1].numSwaps++;
             }
         }
     }
