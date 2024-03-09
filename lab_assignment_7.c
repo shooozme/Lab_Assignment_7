@@ -16,19 +16,16 @@ element *swapBubbleSort( int *array, int size) {
         swaps[i].numSwaps = 0;
     }
 
-    for ( int step = 0; step < size -1; step++) { 
-        int i = 0;
-        for (i = 0; i < size - step - 1; i++) {
-            swaps[i].data = array[i];
-              if (array[i] > array[i + 1]) {
-                int temp = array[i];
-                array[i] = array[i + 1];
-                array[i + 1] = temp;
-                //maybe some kind of check for which one iterates?
-                //if(temp == swaps[i].data) {
-                    swaps[i].numSwaps++;
-                //}
-            }            
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (swaps[j].data > swaps[j+1].data) {
+                element temp = swaps[j];
+                swaps[j] = swaps[j+1];
+                swaps[j+1] = temp;
+
+                swaps[j].numSwaps++;
+                swaps[j + 1].numSwaps++;
+            }
         }
     }
     return swaps;
@@ -60,14 +57,18 @@ element *selectionSort( int *array, int size) {
             swaps[i].numSwaps++;
         }
     }
+    return swaps;
 }
 
 void printFreqArray(element *swaps, int array[], int size) {
-     for(int i = 0; i < size; i++){
-        swaps[i].data = array[i];
+    int total = 0;
+    for(int i = 0; i < size; i++){
         printf("Number: %d", swaps[i].data);
         printf(" SwapCount: %d\n", swaps[i].numSwaps);
+        total = total + swaps[i].numSwaps;
+        
     }
+    printf("%d\n", total / 2);
 }
 
 int main() {
@@ -95,5 +96,5 @@ int main() {
     selectionSort(data2, size);
     printf("Next array SS:\n");
     printFreqArray(temp, data2, size);
-    
+   
 }
